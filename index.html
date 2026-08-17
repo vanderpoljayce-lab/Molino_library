@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Molino Library | West Florida Public Libraries</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7f4;
+      color: #24352a;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: #173f2a;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #e7b84b;
+      color: #173f2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: .2s;
+    }
+
+    nav a:hover {
+      color: #e7b84b;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 570px;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(rgba(13,45,29,.78), rgba(13,45,29,.78)),
+        radial-gradient(circle at center, #67916f, #173f2a);
+      color: white;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      width: 100%;
+      margin: auto;
+      padding: 80px 25px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      max-width: 800px;
+      line-height: 1.05;
+      margin-bottom: 25px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      font-size: 1.25rem;
+      margin-bottom: 35px;
+      color: #e9f0eb;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid #e7b84b;
+      transition: .2s;
+    }
+
+    .button-primary {
+      background: #e7b84b;
+      color: #173f2a;
+    }
+
+    .button-primary:hover {
+      background: #f4cf72;
+    }
+
+    .button-outline {
+      color: white;
+    }
+
+    .button-outline:hover {
+      background: white;
+      color: #173f2a;
+    }
+
+    /* SEARCH */
+    .search-section {
+      max-width: 1000px;
+      margin: -45px auto 70px;
+      position: relative;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.12);
+    }
+
+    .search-box h2 {
+      margin-bottom: 15px;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-form input {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #d7dfd8;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .search-form button {
+      padding: 0 25px;
+      background: #173f2a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-form button:hover {
+      background: #285c3e;
+    }
+
+    #searchResult {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    /* GENERAL */
+    section {
+      padding: 70px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: #173f2a;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #66736a;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,.12);
+    }
+
+    .card-icon {
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #173f2a;
+    }
+
+    /* HOURS */
+    .hours-section {
+      background: #e8efe9;
+    }
+
+    .hours-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: stretch;
+    }
+
+    .hours-card,
+    .visit-card {
+      background: white;
+      padding: 35px;
+      border-radius: 14px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 13px 0;
+      border-bottom: 1px solid #e0e5e1;
+    }
+
+    .closed {
+      color: #9a4036;
+      font-weight: bold;
+    }
+
+    /* EVENTS */
+    .event {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      border-left: 5px solid #e7b84b;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    }
+
+    .event-date {
+      min-width: 80px;
+      text-align: center;
+      font-weight: bold;
+      color: #173f2a;
+    }
+
+    .event-date .day {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    /* ABOUT */
+    .about {
+      background: #173f2a;
+      color: white;
+    }
+
+    .about-content {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      color: #e4eee7;
+      font-size: 1.1rem;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .contact-card {
+      background: white;
+      padding: 35px;
+      border-radius: 14px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+    }
+
+    .contact-card h3 {
+      color: #173f2a;
+      margin-bottom: 15px;
+    }
+
+    .contact-card a {
+      color: #286044;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #102c1d;
+      color: #dce7df;
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    footer a {
+      color: #e7b84b;
+      text-decoration: none;
+    }
+
+    /* MOBILE */
+    @media (max-width: 800px) {
+      nav {
+        display: none;
+      }
+
+      .cards,
+      .hours-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 500px;
+      }
+
+      .search-form {
+        flex-direction: column;
+      }
+
+      .search-form button {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">📚</div>
+        <span>Molino Library</span>
+      </div>
+
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#events">Events</a>
+        <a href="#visit">Visit</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="home">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Your Library. Your Community.</h1>
+
+        <p>
+          Discover books, technology, programs, learning opportunities,
+          and community resources at Molino Library.
+        </p>
+
+        <div class="buttons">
+          <a href="#events" class="button button-primary">
+            Explore Events
+          </a>
+
+          <a href="#visit" class="button button-outline">
+            Plan Your Visit
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <div class="search-section">
+      <div class="search-box">
+        <h2>🔎 Search the Library</h2>
+
+        <form class="search-form" onsubmit="searchBooks(event)">
+          <input
+            id="bookSearch"
+            type="text"
+            placeholder="Search for a book, author, or subject..."
+            required
+          >
+
+          <button type="submit">Search</button>
+        </form>
+
+        <div id="searchResult"></div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Library Services</h2>
+          <p>Resources for learning, reading, creating, and connecting.</p>
+        </div>
+
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-icon">📖</div>
+            <h3>Books & More</h3>
+            <p>
+              Explore books and other library materials for readers of
+              all ages.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">💻</div>
+            <h3>Technology</h3>
+            <p>
+              Get help with technology and use library resources to
+              support school, work, and everyday life.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">👨‍👩‍👧‍👦</div>
+            <h3>Programs</h3>
+            <p>
+              Take part in family programs, children's activities,
+              clubs, classes, and community events.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🌱</div>
+            <h3>Seed Library</h3>
+            <p>
+              Explore the library's community seed resources and
+              discover something new to grow.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">🧑‍💻</div>
+            <h3>Research Help</h3>
+            <p>
+              Need help finding information? Library staff can help
+              with research and online resources.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon">📚</div>
+            <h3>Book Clubs</h3>
+            <p>
+              Connect with other readers and participate in book
+              discussions at Molino Library.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- HOURS -->
+    <section id="visit" class="hours-section">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Plan Your Visit</h2>
+          <p>Come visit us in Molino, Florida.</p>
+        </div>
+
+        <div class="hours-grid">
+
+          <div class="hours-card">
+            <h3>🕒 Library Hours</h3>
+
+            <div class="hours-row">
+              <span>Monday</span>
+              <strong>10 AM – 7 PM</strong>
+            </div>
+
+            <div class="hours-row">
+              <span>Tuesday</span>
+              <strong>10 AM – 7 PM</strong>
+            </div>
+
+            <div class="hours-row">
+              <span>Wednesday</span>
+              <strong>10 AM – 7 PM</strong>
+            </div>
+
+            <div class="hours-row">
+              <span>Thursday</span>
+              <strong>10 AM – 7 PM</strong>
+            </div>
+
+            <div class="hours-row">
+              <span>Friday</span>
+              <strong>10 AM – 7 PM</strong>
+            </div>
+
+            <div class="hours-row">
+              <span>Saturday</span>
+              <strong>10 AM – 4 PM</strong>
+            </div>
+
+            <div class="hours-row">
+              <span>Sunday</span>
+              <strong class="closed">Closed</strong>
+            </div>
+          </div>
+
+          <div class="visit-card">
+            <h3>📍 Find Us</h3>
+
+            <p style="margin: 15px 0;">
+              <strong>Molino Library</strong><br>
+              6450-A Highway 95A<br>
+              Molino, FL 32577
+            </p>
+
+            <p style="margin-bottom: 20px;">
+              📞 <strong>(850) 435-1760</strong>
+            </p>
+
+            <a
+              class="button button-primary"
+              href="https://www.google.com/maps/search/?api=1&query=6450-A+Highway+95A+Molino+FL+32577"
+              target="_blank"
+              rel="noopener"
+            >
+              Get Directions
+            </a>
+
+            <p style="margin-top: 25px; color: #66736a;">
+              The library is located inside the Molino Community Center.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Library Events</h2>
+          <p>There's always something happening at your library.</p>
+        </div>
+
+        <div class="event">
+          <div class="event-date">
+            <div class="day">📚</div>
+          </div>
+
+          <div>
+            <h3>Family Programs</h3>
+            <p>
+              Fun activities and programs designed for children and families.
+            </p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="event-date">
+            <div class="day">🧱</div>
+          </div>
+
+          <div>
+            <h3>LEGO & STEAM Activities</h3>
+            <p>
+              Hands-on activities that encourage creativity,
+              problem-solving, science, and engineering.
+            </p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="event-date">
+            <div class="day">🎨</div>
+          </div>
+
+          <div>
+            <h3>Creative Programs</h3>
+            <p>
+              Crafting, making, and creative activities for the community.
+            </p>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="event-date">
+            <div class="day">📕</div>
+          </div>
+
+          <div>
+            <h3>Molino Book Club</h3>
+            <p>
+              Meet other readers and discuss great books together.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about">
+      <div class="about-content">
+        <h2>A Place to Learn & Connect</h2>
+
+        <p>
+          Molino Library is part of West Florida Public Libraries.
+          The library opened in 2013 after the former Molino Elementary
+          School was transformed into the Molino Community Complex.
+          Today, the library provides a welcoming place for reading,
+          learning, technology, programs, and community connection.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Contact Molino Library</h2>
+          <p>Have a question? We're here to help.</p>
+        </div>
+
+        <div class="contact-grid">
+
+          <div class="contact-card">
+            <h3>📞 Phone</h3>
+            <p>
+              <a href="tel:+18504351760">
+                (850) 435-1760
+              </a>
+            </p>
+          </div>
+
+          <div class="contact-card">
+            <h3>🌐 West Florida Public Libraries</h3>
+            <p>
+              Visit the official library system website for the
+              catalog, current events, and additional services.
+            </p>
+
+            <br>
+
+            <a
+              href="https://mywfpl.com/"
+              target="_blank"
+              rel="noopener"
+            >
+              Visit MyWFPL.com →
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      © 2026 Molino Library
+    </p>
+
+    <p>
+      6450-A Highway 95A · Molino, FL 32577
+    </p>
+
+    <p style="margin-top: 10px;">
+      Part of West Florida Public Libraries
+    </p>
+  </footer>
+
+  <script>
+    function searchBooks(event) {
+      event.preventDefault();
+
+      const search = document
+        .getElementById("bookSearch")
+        .value
+        .trim();
+
+      const result = document.getElementById("searchResult");
+
+      if (!search) {
+        result.textContent = "Please enter a title, author, or subject.";
+        return;
+      }
+
+      result.innerHTML =
+        'Searching the library catalog for <strong>"' +
+        escapeHTML(search) +
+        '"</strong>...';
+
+      setTimeout(() => {
+        result.innerHTML =
+          'To see real-time catalog results, visit the ' +
+          '<a href="https://mywfpl.com/" target="_blank">' +
+          'West Florida Public Libraries website</a>.';
+      }, 700);
+    }
+
+    function escapeHTML(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+
+</body>
+              </html>
